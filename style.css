@@ -11,6 +11,7 @@ body {
     padding-bottom: 220px; /* footer space in normal mode */
 }
 
+
 /* ---------------------------------------------------
    PANEL
 --------------------------------------------------- */
@@ -169,6 +170,11 @@ body {
     backdrop-filter: blur(12px);
     text-align: left;
 }
+
+
+
+
+
 
 .context-item {
     padding: 10px 16px;

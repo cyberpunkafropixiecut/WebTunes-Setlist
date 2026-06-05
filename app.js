@@ -1423,6 +1423,8 @@ function showLyricsPopup(track) {
         });
 }
 
+
+
 /* ------------------------------------------------------------
    RELATED FROM CURRENT TRACK
 ------------------------------------------------------------ */
@@ -1658,6 +1660,7 @@ function openAttachmentOverlay() {
     document.getElementById("attachmentsContent").innerHTML = html;
 }
 
+
 document.addEventListener("click", (e) => {
     if (!attachmentMenu.contains(e.target) && e.target !== downloadBtn) {
         attachmentMenu.style.display = "none";
@@ -1834,6 +1837,7 @@ function toSeconds(ts) {
     return parseInt(h) * 3600 + parseInt(m) * 60 + parseFloat(s);
 }
 
+
 /* ------------------------------------------------------------
    RENDER SUBTITLE CONTAINERS (VTT ONLY)
 ------------------------------------------------------------ */
@@ -1896,7 +1900,6 @@ function hexToRgb(hex) {
         b: bigint & 255
     };
 }
-
 /* ------------------------------------------------------------
    SHOW SUBTITLE OVERLAY (FINAL WORKING VERSION)
 ------------------------------------------------------------ */
@@ -2013,6 +2016,17 @@ function showSubtitleOverlay() {
             };
         });
 
+const downloadBtn = document.createElement("button");
+downloadBtn.textContent = "Download";
+downloadBtn.style.width = "100%";
+downloadBtn.style.marginTop = "20px";
+
+downloadBtn.onclick = () => {
+    downloadSubtitleSettings(); // call function below
+};
+
+scrollArea.appendChild(downloadBtn);
+
         return;
     }
 
@@ -2067,6 +2081,40 @@ function showSubtitleOverlay() {
     msg.textContent = "No subtitles found.";
     msg.style.padding = "10px 0";
     scrollArea.appendChild(msg);
+}
+
+function downloadSubtitleSettings() {
+
+    // ⭐ Build JSON from current subtitleTracks
+    const settings = {};
+
+    subtitleTracks.forEach((track, i) => {
+        settings[`subtitle${i + 1}`] = {
+            color: track.color,
+            size: track.size,
+            bgColor: track.bgColor,
+            bgOpacity: track.bgOpacity,
+            fontFamily: track.fontFamily,
+            visible: track.visible
+        };
+    });
+
+    // ⭐ Save to Caption.json 
+    saveSubtitleSettings(); // your existing function
+
+    // ⭐ Convert to JSON text
+    const json = JSON.stringify(settings, null, 2);
+
+    // ⭐ Download file
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Caption.json";
+    a.click();
+
+    URL.revokeObjectURL(url);
 }
 
 /* ------------------------------------------------------------

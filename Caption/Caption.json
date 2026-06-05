@@ -1,0 +1,10 @@
+{
+  "subtitle": {
+    "color": "#ffffff",
+    "size": 31,
+    "bgColor": "#00d5ff",
+    "bgOpacity": 1,
+    "fontFamily": "Serif Proportional",
+    "visible": true
+  }  
+}
