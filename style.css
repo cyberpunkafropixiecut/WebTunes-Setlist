@@ -1,0 +1,1068 @@
+/* ---------------------------------------------------
+   GLOBAL
+--------------------------------------------------- */
+/* base body */
+body {
+    margin: 0;
+    padding: 0;
+    background: #0a0a0f;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #00aaff;
+    padding-bottom: 220px; /* footer space in normal mode */
+}
+
+/* ---------------------------------------------------
+   PANEL
+--------------------------------------------------- */
+.playlist-panel {
+    width: min(800px, 100% - 40px);
+    margin: 20px auto;
+    background: linear-gradient(#11141a, #0b0d12);
+    border: 2px solid #0077cc;
+    padding: 16px 18px;
+    border-radius: 6px;
+    box-shadow: 0 0 20px #003355;
+    padding-bottom: 40px; 
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.playlist-title {
+    font-size: 1.1rem;
+    color: #66caff;
+    text-shadow: 0 0 8px #0088ff;
+}
+
+/* ---------------------------------------------------
+   DOWNLOAD BUTTON
+--------------------------------------------------- */
+.download-btn {
+    background: #0d1824;
+    border: 1px solid #00aaff;
+    color: #88dfff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 0 10px #003355;
+}
+
+.download-btn:hover {
+    background: #102033;
+    border-color: #33ddff;
+}
+
+/* ---------------------------------------------------
+   FOLDER GRID (BANDS/ALBUMS)
+--------------------------------------------------- */
+.folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+}
+
+.folder-item {
+    cursor: pointer;
+}
+
+.folder-thumb-placeholder {
+    width: 100%;
+    height: 160px;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0f7ff;
+    font-size: 1rem;
+    font-weight: bold;
+    text-shadow: 0 0 6px #000;
+    border: 1px solid #003355;
+    margin-bottom: 10px;
+}
+
+.folder-thumb-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------------------------------------------------
+   TRACK LIST
+--------------------------------------------------- */
+.track-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.track-row {
+    padding: 10px;
+    margin-bottom: 6px;
+    background: #141820;
+    border: 1px solid #003355;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #88cfff;
+    transition: 0.2s;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.track-row:hover {
+    background: #1a2230;
+    border-color: #00aaff;
+}
+
+.track-row.active {
+    background: #0f1a28;
+    border-color: #00ddff;
+    box-shadow: 0 0 12px #00ddff;
+}
+
+.track-title {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.track-menu-btn {
+    font-size: 1.2rem;
+    color: #33ccff;
+    padding: 4px 10px;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: 0.2s;
+    user-select: none;
+}
+
+.track-menu-btn:hover {
+    opacity: 1;
+    color: #66e0ff;
+    text-shadow: 0 0 8px #00aaff;
+}
+
+/* ---------------------------------------------------
+   CONTEXT MENU
+--------------------------------------------------- */
+.context-menu {
+    position: fixed;
+    background: rgba(10, 15, 25, 0.95);
+    border: 1px solid #00aaff;
+    border-radius: 6px;
+    display: none;
+    z-index: 999999;
+
+    /* ⭐ Restore original width and align left edge with button */
+    min-width: 240px;
+    padding: 6px 0;
+    box-shadow: 0 0 16px #003355, inset 0 0 12px #001a33;
+    backdrop-filter: blur(12px);
+    text-align: left;
+}
+
+.context-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    color: #88cfff;
+    font-size: 0.95rem;
+    transition: 0.2s;
+}
+
+.context-item:hover {
+    background: #1a2230;
+    color: #33ddff;
+    text-shadow: 0 0 8px #00aaff;
+}
+
+/* ---------------------------------------------------
+   VIDEO PLAYER
+--------------------------------------------------- */
+#videoContainer {
+    width: min(800px, 100% - 0px);
+    margin: 10px auto 120px auto;
+    display: none;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+
+#videoPlayer {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 5px;
+      
+}
+
+
+/* When JS adds fs-fullscreen, we activate centered fullscreen mode */
+#videoContainer.fs-fullscreen {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    background: #000 !important;
+    overflow: hidden !important;
+
+    display: flex !important;
+    align-items: center !important;     /* vertical centering */
+    justify-content: center !important; /* horizontal centering */
+}
+#videoContainer:not(.fs-fullscreen) #videoPlayer {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+
+/* ---------------------------------------------------
+   SUBTITLE WRAPPER
+--------------------------------------------------- */
+.subtitle-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+}
+
+.subtitle {
+    max-width: 90%;
+    text-align: center;
+    text-shadow: 2px 2px 4px #000;
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+    pointer-events: none;
+}
+
+.subtitle-bg {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 4px;
+}
+
+/* ---------------------------------------------------
+   FUTURISTIC OVERLAYS (Lyrics + Subtitle Settings)
+--------------------------------------------------- */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    max-height: 75vh;
+   
+    overflow-y: hidden; /* scroll restored */
+
+    background: rgba(10, 15, 25, 0.75);
+    border: 1px solid #00aaff;
+    border-radius: 10px;
+
+    padding: 20px 22px;
+    box-shadow: 0 0 25px #003355, inset 0 0 20px #001a33;
+
+    backdrop-filter: blur(14px) saturate(160%);
+    color: #cceeff;
+    z-index: 10000;
+ 
+
+    animation: holoPop 0.25s ease-out;
+ padding-bottom: 32px;
+}
+
+@keyframes holoPop {
+    from { transform: translate(-50%, -48%) scale(0.92); opacity: 0; }
+    to   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.overlay h3 {
+    margin: 0 0 14px 0;
+    font-size: 1.1rem;
+    color: #66d0ff;
+    text-shadow: 0 0 8px #0099ff;
+    letter-spacing: 0.5px;
+}
+
+/* LYRICS CLOSE BUTTON (absolute) */
+.overlay-close,
+#lyricsCloseBtn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+
+    font-size: 20px;
+    color: #88dfff;
+    opacity: 0.8;
+
+    transition: 0.2s;
+}
+
+.overlay-close:hover,
+#lyricsCloseBtn:hover {
+    opacity: 1;
+    text-shadow: 0 0 10px #33ddff;
+}
+/* ---------------------------------------------------
+   SUBTITLE CLOSE BUTTON 
+--------------------------------------------------- */
+#subtitleCloseBtn {
+    position: sticky;
+    top: 0;
+    float: right;
+    cursor: pointer;
+
+    font-size: 20px;
+    color: #88dfff;
+    opacity: 0.8;
+    padding: 4px 8px;
+
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+
+    z-index: 2;
+    transition: 0.2s;
+}
+
+#subtitleCloseBtn:hover {
+    opacity: 1;
+    text-shadow: 0 0 10px #33ddff;
+}
+
+
+/* SUBTITLE SETTINGS BUTTONS */
+.overlay button {
+    background: #0d1824;
+    border: 1px solid #0077cc;
+    color: #88dfff;
+
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #003355;
+    transition: 0.2s;
+}
+
+.overlay button:hover {
+    background: #102033;
+    border-color: #33ddff;
+    color: #c8f6ff;
+}
+
+/* SELECT */
+.overlay select {
+    width: 100%;
+    padding: 6px 8px;
+
+    background: #0d1824;
+    border: 1px solid #004466;
+    border-radius: 4px;
+
+    color: #88dfff;
+    font-size: 0.9rem;
+
+    box-shadow: inset 0 0 8px #001a33;
+    margin-bottom: 12px;
+}
+
+/* COLOR PICKER */
+.overlay input[type="color"] {
+    width: 50px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    background: #0d1824;
+    box-shadow: 0 0 8px #003355;
+    margin: 6px 0 12px 0;
+}
+
+/* SLIDERS */
+.overlay input[type="range"] {
+    width: 100%;
+    margin: 6px 0 14px 0;
+
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 4px;
+
+    background: #0a0d12;
+    border: 1px solid #003355;
+    box-shadow: inset 0 0 6px #001a33;
+}
+
+.overlay input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+
+    background: #00aaff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00aaff;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.overlay input[type="range"]::-webkit-slider-thumb:hover {
+    background: #33ddff;
+    box-shadow: 0 0 14px #33ddff;
+}
+
+#subtitleOverlay > div:first-child {
+    background: transparent !important;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+
+/* LYRICS TEXT */
+#lyricsContent {
+    white-space: pre-wrap;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.45;
+
+    color: #cceeff;
+    text-shadow: 0 0 6px #003355;
+}
+
+#lyricsOverlay {
+    padding-top: 40px;
+}
+
+/* ---------------------------------------------------
+   FOOTER PLAYER
+--------------------------------------------------- */
+.footer-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+
+    background: #0d1118;
+    border-top: 2px solid #0077cc;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    overflow: hidden;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.track-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.band {
+    font-size: 0.78rem;
+    color: #66caff;
+    opacity: 0.85;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 95%;
+}
+
+.title {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 95%;
+}
+
+.time-left,
+.time-right {
+    width: 46px;
+    text-align: center;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+}
+
+.progress-container {
+    flex: 1.6;
+    height: 10px;
+    background: #0a0d12;
+    border: 1px solid #003355;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00aaff, #33ddff);
+}
+
+.controls-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    padding-right: 4px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #00aaff;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.icon-btn svg {
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 0 6px #0077cc);
+    transition: 0.2s;
+}
+
+.icon-btn:hover svg {
+    fill: #33ccff;
+    filter: drop-shadow(0 0 12px #33ccff);
+}
+
+.mode-active svg {
+    fill: #33ddff !important;
+    filter: drop-shadow(0 0 14px #33ddff);
+}
+
+/* ---------------------------------------------------
+   PAGINATION
+--------------------------------------------------- */
+#pagination {
+    width: min(800px, 100% - 40px);
+    margin: 14px auto 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+
+    font-size: 1rem;
+    color: #66caff;
+    text-shadow: 0 0 6px #0088ff;
+}
+
+#pagination span {
+    cursor: pointer;
+    padding: 6px 12px;
+    border: 1px solid #0077cc;
+    border-radius: 4px;
+    background: #0d1824;
+    box-shadow: 0 0 10px #003355;
+    transition: 0.2s;
+}
+
+#pagination span:hover {
+    background: #102033;
+    border-color: #33ddff;
+    color: #33ddff;
+}
+
+#pagination span.disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------
+   FUTURISTIC MINIMALIST SCROLLBARS
+--------------------------------------------------- */
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(0, 20, 40, 0.25);
+    border-radius: 10px;
+    box-shadow: inset 0 0 8px #001a33;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00aaff, #33ddff);
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00aaff;
+    border: 2px solid rgba(0, 20, 40, 0.6);
+    transition: 0.2s;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #33ddff, #66f0ff);
+    box-shadow: 0 0 14px #33ddff;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #00aaff rgba(0, 20, 40, 0.25);
+}
+
+/* Disable native fullscreen toggle button */
+video::-webkit-media-controls-fullscreen-button {
+    display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+    overflow: hidden !important;
+}
+
+.active {
+    filter: brightness(2.2);
+    box-shadow: 0 0 8px var(--accent-color),
+                0 0 16px var(--accent-color),
+                0 0 24px var(--accent-color);
+    transition: 0.2s ease;
+}
+
+
+/* ---------------------------------------------------
+   GLOBAL SCROLL + FOOTER BASE
+--------------------------------------------------- */
+
+/* Hide mobile footer by default (desktop) */
+.mobile-footer {
+    display: none;
+}
+
+/* Prevent body from scrolling the whole page */
+
+
+/* Desktop footer fixed at bottom */
+.footer-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+/* Scroll only inside playlist panel by default */
+.playlist-panel {
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/* Remove accidental horizontal scrollbars */
+* {
+    box-sizing: border-box;
+}
+
+
+/* Prevent context menu from ghosting behind overlay */
+.context-menu {
+    z-index: 9999 !important; /* lower than overlay */
+}
+
+/* Hide context menu when overlay is open */
+.context-menu.hidden {
+    display: none !important;
+}
+
+
+
+/* ---------------------------------------------------
+   MOBILE
+--------------------------------------------------- */
+@media (max-width: 900px) {
+
+/* BODY */
+body {
+    font-size: 14px;
+    padding-bottom: 230px;
+    overflow-x: hidden;
+
+    /* ⭐ Desktop: body must NOT scroll */
+    overflow-y: hidden;
+}
+
+/* PLAYLIST PANEL */
+.playlist-panel {
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    padding: 12px;
+    border-radius: 10px;
+
+    /* ⭐ Only this scrolls */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    height: calc(100vh - 150px);
+}
+
+    .playlist-title {
+        font-size: 1rem;
+    }
+
+    /* GRID */
+    .folder-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .folder-thumb-placeholder {
+        height: 120px;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    /* TRACK LIST */
+    .track-row {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .track-menu-btn {
+        font-size: 1rem;
+        padding: 2px 8px;
+    }
+
+    #videoPlayer {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        display: block;
+    }
+
+    /* SUBTITLES */
+    .subtitle-wrapper {
+        bottom: 12%;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        max-width: 95%;
+    }
+
+/* ---------------------------------------------------
+   MOBILE LYRICS OVERLAY — FLUSH WITH FOOTER TOP
+--------------------------------------------------- */
+#lyricsOverlay {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 100%;
+
+    /* ⭐ Fill screen exactly to footer top */
+    height: calc(81vh - 20px);
+    max-height: calc(100vh - 90px);
+
+    background: rgba(10, 15, 25, 0.92);
+    border: 1px solid #00aaff;
+    border-radius: 0;
+    padding: 20px 10px 24px;
+
+    box-shadow: 0 0 25px #003355, inset 0 0 20px #001a33;
+    backdrop-filter: blur(14px) saturate(160%);
+    color: #cceeff;
+
+    z-index: 99999; /* above playlist, below footer */
+    overflow: hidden;
+    animation: none !important;
+}
+
+/* Header */
+#lyricsOverlay h3 {
+    margin: 0 0 14px 0;
+    font-size: 1rem;
+    color: #66d0ff;
+    text-shadow: 0 0 8px #0099ff;
+}
+
+/* Close button */
+#lyricsCloseBtn {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 22px;
+    color: #88dfff;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    z-index: 10001;
+}
+
+#lyricsCloseBtn:hover {
+    opacity: 1;
+    text-shadow: 0 0 10px #33ddff;
+}
+
+/* ⭐ ORIGINAL WORKING LYRICS CONTENT */
+#lyricsContent {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 110px);
+    padding: 0 10px 12px 6px;
+
+    white-space: pre-wrap;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #cceeff;
+    text-shadow: 0 0 6px #003355;
+}
+
+/* ⭐ ORIGINAL WORKING SCROLLBAR */
+#lyricsContent::-webkit-scrollbar {
+    width: 10px;
+    background: rgba(0, 20, 40, 0.4);
+}
+
+#lyricsContent::-webkit-scrollbar-thumb {
+    background: #00aaff;
+    border-radius: 10px;
+    border: 2px solid rgba(0, 20, 40, 0.8);
+}
+
+#lyricsContent::-webkit-scrollbar-track {
+    background: rgba(0, 20, 40, 0.25);
+    box-shadow: inset 0 0 8px #001a33;
+}
+/* ---------------------------------------------------
+   ATTACHMENTS OVERLAY
+--------------------------------------------------- */
+#attachmentsOverlay {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 100%;
+    height: calc(81vh - 20px);
+    max-height: calc(100vh - 90px);
+
+    background: #0a0f18; /* solid color */
+    backdrop-filter: none;
+    border: 1px solid #00aaff;
+    border-radius: 0;
+    padding: 20px 10px 24px;
+
+    box-shadow: 0 0 25px #003355, inset 0 0 20px #001a33;
+    color: #cceeff;
+
+    z-index: 999999;
+    overflow: hidden;
+}
+
+/* Close button */
+#attachmentsCloseBtn {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 22px;
+    color: #88dfff;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    z-index: 10001;
+}
+
+#attachmentsCloseBtn:hover {
+    opacity: 1;
+    text-shadow: 0 0 10px #33ddff;
+}
+
+/* Scrollable content */
+#attachmentsContent {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 110px);
+
+    padding: 32px 10px 12px 6px; /* ⭐ top padding so links don't hit close button */
+
+    scrollbar-width: thin;
+    scrollbar-color: #00aaff rgba(0, 20, 40, 0.4);
+}
+
+/* Scrollbar */
+#attachmentsContent::-webkit-scrollbar {
+    width: 10px;
+    background: rgba(0, 20, 40, 0.4);
+}
+
+#attachmentsContent::-webkit-scrollbar-thumb {
+    background: #00aaff;
+    border-radius: 10px;
+    border: 2px solid rgba(0, 20, 40, 0.8);
+}
+
+#attachmentsContent::-webkit-scrollbar-track {
+    background: rgba(0, 20, 40, 0.25);
+    box-shadow: inset 0 0 8px #001a33;
+}
+
+/* ---------------------------------------------------
+   ATTACHMENT LINKS — NORMAL HYPERLINK STYLE
+--------------------------------------------------- */
+.attachment-item {
+    display: block;
+    color: #88cfff;          /* same as context-item */
+    text-decoration: none;
+    padding: 6px 4px;        /* small hyperlink padding */
+    margin: 6px 0;           /* clean spacing */
+    font-size: 0.95rem;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.attachment-item:hover {
+    color: #33ddff;
+    text-shadow: 0 0 8px #00aaff;
+}
+
+
+    
+    .desktop-footer {
+        display: none;
+    }
+
+    /* MOBILE FOOTER */
+    .mobile-footer {
+        display: flex;
+        position: fixed;
+        bottom: -10px;
+        left: 0;
+        right: 0;
+        z-index: 999;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        background: #000;
+
+        padding: 5px 18px 24px;
+        gap: 10px;
+
+        box-sizing: border-box;
+        height: calc(40px + 100px);
+    }
+
+    .mobile-footer .footer-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    /* TOP ROW */
+    .mobile-footer .row-info {
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .mobile-footer .nav-btn {
+        font-size: 22px;
+        background: none;
+        border: none;
+        color: #00aaff;
+        margin-top: 10px;
+    }
+
+    .mobile-footer .title-wrapper {
+        flex: 1 1 auto;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.2;
+        margin-top: 5px;
+    }
+
+    .mobile-footer .title-wrapper .title {
+        max-width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* MIDDLE ROW (seek bar) */
+    .mobile-footer .row-progress {
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .mobile-footer .row-progress .progress-container {
+        flex: 1 1 auto;
+        height: 8px;
+        background: #444;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .mobile-footer .row-progress .progress-bar {
+        height: 100%;
+        background: #00aaff;
+        width: 0%;
+    }
+
+    /* BOTTOM ROW */
+    .mobile-footer .row-controls {
+        justify-content: center;
+        gap: 18px;
+    }
+
+    .mobile-footer .row-controls .icon-btn svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .mobile-shuffle.active svg,
+    .mobile-repeat.active svg {
+        filter: drop-shadow(0 0 6px #00aaff);
+        fill: #00aaff;
+    }
+
+    /* ⭐ REMOVE MOBILE VIDEO OVERLAY COMPLETELY */
+    .mobile-video-overlay,
+    .mobile-video-close,
+    #mobileVideoPlayer,
+    .mobile-video-seek,
+    .mobile-video-progress,
+    .mobile-video-bar,
+    .mobile-video-current,
+    .mobile-video-duration {
+        display: none !important;
+    }
+}

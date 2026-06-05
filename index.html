@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>WebTunes Setlist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- PLAYLIST PANEL -->
+<div class="playlist-panel">
+    <div class="panel-header">
+        <h2 class="playlist-title" id="panelTitle"></h2>
+        <button id="downloadBtn" class="download-btn" style="display:none;">Download</button>
+    </div>
+
+    <div id="folderView" class="folder-grid"></div>
+    <div id="pagination"></div>
+
+    <!-- TRACK LIST -->
+    <ul id="trackView" class="track-list" style="display:none;"></ul>
+
+    <!-- ⭐ DESKTOP/MOBILE VIDEO PLAYER NESTED UNDER TRACKS -->
+    <div id="videoContainer">
+        <video id="videoPlayer" controls></video>
+        <div class="subtitle-wrapper" id="subtitleWrapper"></div>
+    </div>
+</div>
+
+<!-- ATTACHMENT MENU -->
+<div id="attachmentMenu" class="context-menu"></div>
+
+<!-- ============================================================
+     DESKTOP FOOTER
+============================================================ -->
+<div class="footer-player desktop-footer">
+
+    <div class="track-info">
+        <div id="bandName" class="band"></div>
+        <div id="trackTitle" class="title"></div>
+    </div>
+
+    <span id="currentTime" class="time-left">0:00</span>
+
+    <div class="progress-container" id="progressContainer">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <span id="duration" class="time-right">0:00</span>
+
+    <div class="controls-group">
+
+        <button class="icon-btn" id="prevBtn">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <polygon points="11,12 20,4 20,20"/>
+                <rect x="4" y="4" width="4" height="16"></rect>
+            </svg>
+        </button>
+
+        <!-- DESKTOP PLAY/PAUSE -->
+        <button class="icon-btn" id="playBtn">
+            <svg id="playIcon" width="32" height="32" viewBox="0 0 24 24" fill="#00aaff">
+                <polygon points="6,4 20,12 6,20"></polygon>
+            </svg>
+            <svg id="pauseIcon" width="32" height="32" viewBox="0 0 24 24" fill="#00aaff" style="display:none;">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+        </button>
+
+        <button class="icon-btn" id="nextBtn">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <polygon points="13,12 4,4 4,20"/>
+                <rect x="16" y="4" width="4" height="16"></rect>
+            </svg>
+        </button>
+
+        <button class="icon-btn" id="shuffleBtn">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <path d="M17 3h4v4h-2V5h-2V3zm0 14h2v-2h2v4h-4v-2zM3 5h4v2H5v2H3V5zm0 12h2v2h2v2H3v-4zm4.7-7.3l1.4-1.4 10 10-1.4 1.4-10-10zm10 0l1.4-1.4-10-10-1.4 1.4 10 10z"/>
+            </svg>
+        </button>
+
+        <button class="icon-btn" id="repeatBtn">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <path d="M17 1l4 4-4 4V6H7v4L3 6l4-4v2h10V1zm-10 22l-4-4 4-4v2h10v-4l4 4-4 4v-2H7v4z"/>
+            </svg>
+        </button>
+
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<!-- ============================================================
+     MOBILE FOOTER
+============================================================ -->
+<div class="footer-player mobile-footer">
+
+    <!-- TOP ROW -->
+    <div class="footer-row row-info">
+        <button class="nav-btn" onclick="history.back()">‹</button>
+
+        <div class="title-wrapper">
+            <span class="band mobile-band"></span>
+            <span class="title mobile-title"></span>
+        </div>
+
+        <button class="nav-btn" onclick="history.forward()">›</button>
+    </div>
+
+    <!-- MIDDLE ROW (seek bar for audio + video) -->
+    <div class="footer-row row-progress">
+        <span class="time-left mobile-current">0:00</span>
+
+        <div class="progress-container mobile-progress">
+            <div class="progress-bar mobile-bar"></div>
+        </div>
+
+        <span class="time-right mobile-duration">0:00</span>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="footer-row row-controls">
+
+        <button class="icon-btn mobile-prev">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <polygon points="11,12 20,4 20,20"/>
+                <rect x="4" y="4" width="4" height="16"></rect>
+            </svg>
+        </button>
+
+        <!-- MOBILE PLAY/PAUSE -->
+        <button class="icon-btn mobile-play">
+            <svg class="mobile-play-icon" width="32" height="32" viewBox="0 0 24 24" fill="#00aaff">
+                <polygon points="6,4 20,12 6,20"></polygon>
+            </svg>
+            <svg class="mobile-pause-icon" width="32" height="32" viewBox="0 0 24 24" fill="#00aaff" style="display:none;">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+        </button>
+
+        <button class="icon-btn mobile-next">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <polygon points="13,12 4,4 4,20"/>
+                <rect x="16" y="4" width="4" height="16"></rect>
+            </svg>
+        </button>
+
+        <button class="icon-btn mobile-shuffle">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <path d="M17 3h4v4h-2V5h-2V3zm0 14h2v-2h2v4h-4v-2zM3 5h4v2H5v2H3V5zm0 12h2v2h2v2H3v-4zm4.7-7.3l1.4-1.4 10 10-1.4 1.4-10-10zm10 0l1.4-1.4-10-10-1.4 1.4 10 10z"/>
+            </svg>
+        </button>
+
+        <button class="icon-btn mobile-repeat">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#00aaff">
+                <path d="M17 1l4 4-4 4V6H7v4L3 6l4-4v2h10V1zm-10 22l-4-4 4-4v2h10v-4l4 4-4 4v-2H7v4z"/>
+            </svg>
+        </button>
+
+    </div>
+</div>
+
+<!-- SUBTITLE SETTINGS OVERLAY -->
+<div id="subtitleOverlay" class="overlay" style="display:none;"></div>
+
+<!-- SRT → VTT CONVERSION OVERLAY -->
+<div id="subtitleConvertOverlay" class="overlay" style="display:none;">
+    <h3 id="subtitleConvertTitle">Convert SRT → VTT</h3>
+    <textarea id="subtitleConvertInput" style="width:100%;height:260px;margin-bottom:12px;"></textarea>
+    <button id="convertToVTTBtn">Convert to VTT</button>
+    <button id="downloadVTTBtn" style="margin-top:10px;">Download VTT</button>
+    <div id="subtitleConvertClose" style="position:absolute;top:8px;right:12px;cursor:pointer;font-size:20px;">✕</div>
+</div>
+
+<!-- ATTACHMENTS OVERLAY -->
+<div id="attachmentsOverlay" style="display:none;"></div>
+
+
+<script src="app.js"></script>
+</body>
+</html>
